@@ -12,31 +12,33 @@ let simboli = [
 ];
 /*immagini da pixabay.com, licenza cc0*/
 
+//variabili
 const arr = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 
     110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 225, 250, 275, 300, 325, 350, 375, 400];
 
-var lunghezzaArray = simboli.length;
-var tentativiRitiro = 0;
-var sconfitteConsecutive = 0;
+let lunghezzaArray = simboli.length;
+let tentativiRitiro = 0;
+let sconfitteConsecutive = 0;
 
-var bottone = document.querySelector('button');
-//var bottone = document.getElementById("button");
-var simboliId = document.getElementById("simboliId");
-var simbolo1 = document.getElementById("simbolo1");
-var simbolo2 = document.getElementById("simbolo2");
-var simbolo3 = document.getElementById("simbolo3");
-
-var punti = document.getElementById("punti");
-var tentativi = document.getElementById("tentativi");
-var rapporto = document.getElementById("rapporto");
-var ritiri = document.getElementById("ritiri");
-
-var n_tentativi = 0;
-var n_punti = 0;
+let n_tentativi = 0;
+let n_punti = 0;
 
 const DELAY = 5500;
 
-bottone.addEventListener("click", function(){ //parte la slot
+//elementi DOM
+let bottone = document.querySelector('button');
+let simboliId = document.getElementById("simboliId");
+let simbolo1 = document.getElementById("simbolo1");
+let simbolo2 = document.getElementById("simbolo2");
+let simbolo3 = document.getElementById("simbolo3");
+
+let punti = document.getElementById("punti");
+let tentativi = document.getElementById("tentativi");
+let rapporto = document.getElementById("rapporto");
+let ritiri = document.getElementById("ritiri");
+
+//Partenza slot
+bottone.addEventListener("click", function(){
 
     ritiri.innerHTML = 2;
     tentativiRitiro = 0;
@@ -89,6 +91,7 @@ function verificaVittoria(){
     return simbolo1.src == simbolo2.src && simbolo2.src == simbolo3.src;
 }
 
+//Animazione e generazione casuale di un simbolo
 function parteSimbolo(s) {
     let n = getRandom(0, lunghezzaArray);
     if(s==1) { 
@@ -117,6 +120,8 @@ function parteSimbolo(s) {
      }
 }
 
+//se nelle ultime 10 partite non si hanno avuto vittorie 
+//viene generata una vittoria
 function vittoriaAssicurata(){
     let n = getRandom(0, lunghezzaArray);
     simbolo1.src = simboli[n];
@@ -124,13 +129,14 @@ function vittoriaAssicurata(){
     setTimeout(function(){ simbolo3.src = simboli[n]; }, 2000);
 }
 
-function getRandom(min, max) { //genera numero casuale
+function getRandom(min, max) { 
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //Il max è escluso e il min è incluso
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
-simboliId.addEventListener("click", function(){ //ritira il simbolo cliccato
+//ritira il simbolo cliccato
+simboliId.addEventListener("click", function(){ 
     if(!verificaVittoria() && tentativiRitiro < 2){
         if(event.target.id == 'simbolo1') {
             parteSimbolo(1);
@@ -142,7 +148,6 @@ simboliId.addEventListener("click", function(){ //ritira il simbolo cliccato
             parteSimbolo(3);
         }
 
-        //
         setTimeout( () => {
             if(verificaVittoria()){
                 aumentaPunteggio();

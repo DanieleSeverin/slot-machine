@@ -16,6 +16,7 @@ let simboli = [
 const arr = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 
     110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 225, 250, 275, 300, 325, 350, 375, 400];
 
+let partitaIniziata = false;
 let lunghezzaArray = simboli.length;
 let tentativiRitiro = 0;
 let sconfitteConsecutive = 0;
@@ -40,37 +41,40 @@ let ritiri = document.getElementById("ritiri");
 //Partenza slot
 bottone.addEventListener("click", function(){
 
-    ritiri.innerHTML = 2;
-    tentativiRitiro = 0;
+    if(!partitaIniziata){
+        partitaIniziata=true;
+        ritiri.innerHTML = 2;
+        tentativiRitiro = 0;
 
-    if(sconfitteConsecutive < 10){
+        if(sconfitteConsecutive < 10){
 
-        parteSimbolo(1);
+            parteSimbolo(1);
 
-        setTimeout(function(){ parteSimbolo(2) }, 500);
+            setTimeout(function(){ parteSimbolo(2) }, 500);
 
-        setTimeout(function(){ parteSimbolo(3) }, 1000);
+            setTimeout(function(){ parteSimbolo(3) }, 1000);
 
-    } else {
-        vittoriaAssicurata();
-    }
-
-    setTimeout(function(){
-
-        aumentaTentativi();
-
-        if(verificaVittoria()){
-            aumentaPunteggio();
-            sconfitteConsecutive = 0;
-            tentativiRitiro = 2;
-            ritiri.innerHTML = 2 - tentativiRitiro;
         } else {
-            sconfitteConsecutive++;
+            vittoriaAssicurata();
         }
 
-        mostraRapporto();
-    }, DELAY);
+        setTimeout(function(){
 
+            aumentaTentativi();
+
+            if(verificaVittoria()){
+                aumentaPunteggio();
+                sconfitteConsecutive = 0;
+                tentativiRitiro = 2;
+                ritiri.innerHTML = 2 - tentativiRitiro;
+            } else {
+                sconfitteConsecutive++;
+            }
+
+            mostraRapporto();
+            partitaIniziata=false;
+        }, DELAY);
+    }
 });
 
 function aumentaTentativi(){
@@ -123,10 +127,20 @@ function parteSimbolo(s) {
 //se nelle ultime 10 partite non si hanno avuto vittorie 
 //viene generata una vittoria
 function vittoriaAssicurata(){
-    let n = getRandom(0, lunghezzaArray);
-    simbolo1.src = simboli[n];
-    setTimeout(function(){ simbolo2.src = simboli[n]; }, 1000);
-    setTimeout(function(){ simbolo3.src = simboli[n]; }, 2000);
+    let nVincente = getRandom(0, lunghezzaArray);
+
+    parteSimbolo(1);
+    simbolo1.src = simboli[nVincente];
+
+    setTimeout(function(){ 
+        parteSimbolo(2);
+        simbolo2.src = simboli[nVincente]; 
+    }, 500);
+
+    setTimeout(function(){ 
+        parteSimbolo(3);
+        simbolo3.src = simboli[nVincente];
+    }, 1000);
 }
 
 function getRandom(min, max) { 
@@ -137,28 +151,33 @@ function getRandom(min, max) {
 
 //ritira il simbolo cliccato
 simboliId.addEventListener("click", function(){ 
-    if(!verificaVittoria() && tentativiRitiro < 2){
-        if(event.target.id == 'simbolo1') {
-            parteSimbolo(1);
-        }
-        if(event.target.id == 'simbolo2') {
-            parteSimbolo(2);
-        }
-        if(event.target.id == 'simbolo3') {
-            parteSimbolo(3);
-        }
-
-        setTimeout( () => {
-            if(verificaVittoria()){
-                aumentaPunteggio();
+    if(!partitaIniziata){
+        if(!verificaVittoria() && tentativiRitiro < 2){
+            if(event.target.id == 'simbolo1') {
+                parteSimbolo(1);
             }
-    
-            mostraRapporto();
-            tentativiRitiro++;
-            if(verificaVittoria()){tentativiRitiro = 2}
-            ritiri.innerHTML = 2 - tentativiRitiro;
-        }, DELAY);
+            if(event.target.id == 'simbolo2') {
+                parteSimbolo(2);
+            }
+            if(event.target.id == 'simbolo3') {
+                parteSimbolo(3);
+            }
 
+            tentativiRitiro++;
+            ritiri.innerHTML = 2 - tentativiRitiro;
+
+            setTimeout( () => {
+                if(verificaVittoria()){
+                    aumentaPunteggio();
+                    sconfitteConsecutive = 0;
+                    tentativiRitiro = 2
+                }
         
+                mostraRapporto();
+                ritiri.innerHTML = 2 - tentativiRitiro;
+            }, DELAY);
+
+            
+        }
     }
 });  

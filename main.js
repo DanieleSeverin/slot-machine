@@ -1,5 +1,5 @@
 //Asset
-let simboli = [
+let simboliDS = [
     'immagini/cocco.png',
     'immagini/fragola.png',
     'immagini/limone.png',
@@ -13,171 +13,178 @@ let simboli = [
 /*immagini da pixabay.com, licenza cc0*/
 
 //variabili
-const arr = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 
+const arrDS = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 
     110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 225, 250, 275, 300, 325, 350, 375, 400];
 
-let partitaIniziata = false;
-let lunghezzaArray = simboli.length;
-let tentativiRitiro = 0;
-let sconfitteConsecutive = 0;
+let partitaIniziataDS = false;
+let lunghezzaArrayDS = simboliDS.length;
+let tentativiRitiroDS = 0;
+let sconfitteConsecutiveDS = 0;
 
-let n_tentativi = 0;
-let n_punti = 0;
+let n_tentativiDS = 0;
+let n_puntiDS = 0;
 
-const DELAY = 5500;
+const DELAY_DS = 5500;
 
 //elementi DOM
-let bottone = document.querySelector('button');
-let simboliId = document.getElementById("simboliId");
-let simbolo1 = document.getElementById("simbolo1");
-let simbolo2 = document.getElementById("simbolo2");
-let simbolo3 = document.getElementById("simbolo3");
+let bottoneDS = document.getElementById("buttonDS");
+let simboliIdDS = document.getElementById("simboliIdDS");
+let simbolo1DS = document.getElementById("simbolo1DS");
+let simbolo2DS = document.getElementById("simbolo2DS");
+let simbolo3DS = document.getElementById("simbolo3DS");
 
-let punti = document.getElementById("punti");
-let tentativi = document.getElementById("tentativi");
-let rapporto = document.getElementById("rapporto");
-let ritiri = document.getElementById("ritiri");
+let puntiDS = document.getElementById("puntiDS");
+let tentativiDS = document.getElementById("tentativiDS");
+let rapportoDS = document.getElementById("rapportoDS");
+let ritiriDS = document.getElementById("ritiriDS");
 
 //Partenza slot
-bottone.addEventListener("click", function(){
+bottoneDS.addEventListener("click", function(){
 
-    if(!partitaIniziata){
-        partitaIniziata=true;
-        ritiri.innerHTML = 2;
-        tentativiRitiro = 0;
+    if(!partitaIniziataDS){
+        partitaIniziataDS=true;
+        ritiriDS.innerHTML = 2;
+        tentativiRitiroDS = 0;
 
-        if(sconfitteConsecutive < 10){
+        if(sconfitteConsecutiveDS < 10){
 
-            parteSimbolo(1);
+            parteSimboloDS(1);
 
-            setTimeout(function(){ parteSimbolo(2) }, 500);
+            setTimeout(function(){ parteSimboloDS(2) }, 500);
 
-            setTimeout(function(){ parteSimbolo(3) }, 1000);
+            setTimeout(function(){ parteSimboloDS(3) }, 1000);
 
         } else {
-            vittoriaAssicurata();
+            vittoriaAssicurataDS();
         }
 
         setTimeout(function(){
 
-            aumentaTentativi();
+            aumentaTentativiDS();
 
-            if(verificaVittoria()){
-                aumentaPunteggio();
-                sconfitteConsecutive = 0;
-                tentativiRitiro = 2;
-                ritiri.innerHTML = 2 - tentativiRitiro;
+            if(verificaVittoriaDS()){
+                aumentaPunteggioDS();
+                sconfitteConsecutiveDS = 0;
+                tentativiRitiroDS = 2;
+                ritiriDS.innerHTML = 2 - tentativiRitiroDS;
             } else {
-                sconfitteConsecutive++;
+                sconfitteConsecutiveDS++;
             }
 
-            mostraRapporto();
-            partitaIniziata=false;
-        }, DELAY);
+            mostraRapportoDS();
+            partitaIniziataDS=false;
+        }, DELAY_DS);
     }
 });
 
-function aumentaTentativi(){
-    n_tentativi++;
-    tentativi.innerHTML = n_tentativi;
+function aumentaTentativiDS(){
+    n_tentativiDS++;
+    tentativiDS.innerHTML = n_tentativiDS;
 }
 
-function aumentaPunteggio(){
-    n_punti++;
-    punti.innerHTML = n_punti;
+function aumentaPunteggioDS(){
+    n_puntiDS++;
+    puntiDS.innerHTML = n_puntiDS;
 }
 
-function mostraRapporto(){
-    rapporto.innerHTML = n_punti/n_tentativi;
+function mostraRapportoDS(){
+    rapportoDS.innerHTML = n_puntiDS/n_tentativiDS;
 }
 
-function verificaVittoria(){
-    return simbolo1.src == simbolo2.src && simbolo2.src == simbolo3.src;
+function verificaVittoriaDS(){
+    return simbolo1DS.src == simbolo2DS.src && simbolo2DS.src == simbolo3DS.src;
 }
 
 //Animazione e generazione casuale di un simbolo
-function parteSimbolo(s) {
-    let n = getRandom(0, lunghezzaArray);
-    if(s==1) { 
-        for(let a of arr){
+function parteSimboloDS(sDS) {
+    let nDS = getRandomDS(0, lunghezzaArrayDS);
+    if(sDS==1) { 
+        for(let aDS of arrDS){
             setTimeout( () => {
-                n = getRandom(0, lunghezzaArray);
-                simbolo1.src = simboli[n]; 
-            }, a*10);
+                nDS = getRandomDS(0, lunghezzaArrayDS);
+                simbolo1DS.src = simboliDS[nDS]; 
+            }, aDS*10);
         } 
     }
-    if(s==2) { 
-        for(let a of arr){
+    if(sDS==2) { 
+        for(let aDS of arrDS){
             setTimeout( () => {
-                n = getRandom(0, lunghezzaArray);
-                simbolo2.src = simboli[n]; 
-            }, a*10);
+                nDS = getRandomDS(0, lunghezzaArrayDS);
+                simbolo2DS.src = simboliDS[nDS]; 
+            }, aDS*10);
         }
      }
-    if(s==3) { 
-        for(let a of arr){
+    if(sDS==3) { 
+        for(let aDS of arrDS){
             setTimeout( () => {
-                n = getRandom(0, lunghezzaArray);
-                simbolo3.src = simboli[n]; 
-            }, a*10);
+                nDS = getRandomDS(0, lunghezzaArrayDS);
+                simbolo3DS.src = simboliDS[nDS]; 
+            }, aDS*10);
         }
      }
 }
 
 //se nelle ultime 10 partite non si hanno avuto vittorie 
 //viene generata una vittoria
-function vittoriaAssicurata(){
-    let nVincente = getRandom(0, lunghezzaArray);
+function vittoriaAssicurataDS(){
+    let nVincenteDS = getRandomDS(0, lunghezzaArrayDS);
 
-    parteSimbolo(1);
-    simbolo1.src = simboli[nVincente];
+    parteSimboloDS(1);
+
+    setTimeout(()=>{
+        simbolo1DS.src = simboliDS[nVincenteDS];
+    }, DELAY_DS)
 
     setTimeout(function(){ 
-        parteSimbolo(2);
-        simbolo2.src = simboli[nVincente]; 
+        parteSimboloDS(2);        
     }, 500);
 
+    setTimeout(()=> {
+        simbolo2DS.src = simboliDS[nVincenteDS]; 
+    }, DELAY_DS)
+
     setTimeout(function(){ 
-        parteSimbolo(3);
-        simbolo3.src = simboli[nVincente];
+        parteSimboloDS(3);
     }, 1000);
+
+    setTimeout(()=>{
+        simbolo3DS.src = simboliDS[nVincenteDS];
+    }, DELAY_DS)
 }
 
-function getRandom(min, max) { 
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+function getRandomDS(minDS, maxDS) { 
+    minDS = Math.ceil(minDS);
+    maxDS = Math.floor(maxDS);
+    return Math.floor(Math.random() * (maxDS - minDS)) + minDS;
   }
 
 //ritira il simbolo cliccato
-simboliId.addEventListener("click", function(){ 
-    if(!partitaIniziata){
-        if(!verificaVittoria() && tentativiRitiro < 2){
-            if(event.target.id == 'simbolo1') {
-                parteSimbolo(1);
+simboliIdDS.addEventListener("click", function(){ 
+    if(!partitaIniziataDS){
+        if(!verificaVittoriaDS() && tentativiRitiroDS < 2){
+            if(event.target.id == 'simbolo1DS') {
+                parteSimboloDS(1);
             }
-            if(event.target.id == 'simbolo2') {
-                parteSimbolo(2);
+            if(event.target.id == 'simbolo2DS') {
+                parteSimboloDS(2);
             }
-            if(event.target.id == 'simbolo3') {
-                parteSimbolo(3);
+            if(event.target.id == 'simbolo3DS') {
+                parteSimboloDS(3);
             }
 
-            tentativiRitiro++;
-            ritiri.innerHTML = 2 - tentativiRitiro;
+            tentativiRitiroDS++;
+            ritiriDS.innerHTML = 2 - tentativiRitiroDS;
 
             setTimeout( () => {
-                if(verificaVittoria()){
-                    aumentaPunteggio();
-                    sconfitteConsecutive = 0;
-                    tentativiRitiro = 2
+                if(verificaVittoriaDS()){
+                    aumentaPunteggioDS();
+                    sconfitteConsecutiveDS = 0;
+                    tentativiRitiroDS = 2
                 }
         
-                mostraRapporto();
-                ritiri.innerHTML = 2 - tentativiRitiro;
-            }, DELAY);
-
-            
+                mostraRapportoDS();
+                ritiriDS.innerHTML = 2 - tentativiRitiroDS;
+            }, DELAY_DS);
         }
     }
 });  

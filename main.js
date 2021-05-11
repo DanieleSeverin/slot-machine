@@ -188,3 +188,5 @@ simboliIdDS.addEventListener("click", function(){
         }
     }
 });  
+
+//ciao
